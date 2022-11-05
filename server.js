@@ -14,14 +14,14 @@ app.use(express.json())
 //     })
 // })
 
-app.use('/:smth', (req, res) => {
-    res.send(`The page with this url (localhost:3000/${req.params.smth}) does not exist. Go somewhere else.`).status(404)
-})
 
 const vulRouter = require('./routes/vul')
 const novulRouter = require('./routes/novul')
 app.use('/vul', vulRouter)
-app.use('/novul', vulRouter)
+app.use('/novul', novulRouter)
 
+app.use('/:smth', (req, res) => {
+    res.send(`The page with this url (localhost:3000/${req.params.smth}) does not exist. Go somewhere else.`).status(404)
+})
 
 app.listen(3000)
