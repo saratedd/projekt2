@@ -25,6 +25,9 @@
         <% } %>
     <% } else { %>
         <p>Korisnik nije pronađen. Korisničko ime ili lozinka nisu ispravni.</p>
+        <% if (timeout) {%>
+            <p>Pokušajte ponovno za 5 sekundi.</p>
+        <% } %> 
     <% } %>
 </body>
 </html>

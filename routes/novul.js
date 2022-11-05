@@ -7,6 +7,7 @@ const dbSetup = require('../public/js/setup')
 router.use(express.json())
 
 const attrs = ['user_id', 'user_name', 'user_password']
+var timeout = 0
 
 router.get('/', (req, res) => {
 
@@ -28,16 +29,33 @@ router.post('/', (req, res) => {
 
     if (vulCheck(user, pass)) {
         console.log('nismo ok');
-        res.render('novul', {
-            auth: false,
-            users: '',
-            attrs: attrs,
-            user: user,
-            pass: pass,
-            prijava: true
-        })
+        timeout++
+        if (timeout == 3) {
+            res.render('novul', {
+                auth: false,
+                users: '',
+                attrs: attrs,
+                user: user,
+                pass: pass,
+                prijava: true,
+                timeout: true
+            })
+        } else if (timeout == 4) {
+            timeout = 0
+            sleep(5000)
+        }// else {
+            res.render('novul', {
+                auth: false,
+                users: '',
+                attrs: attrs,
+                user: user,
+                pass: pass,
+                prijava: true,
+                timeout: false
+            })
+        // }
     } else {
-        console.log('ok smo');
+        // console.log('ok smo');
         var sql = format(`select * from users where user_name like '%s' and user_password like '%s'`, user, pass)
     
         pool.query(sql, (err, result, f) => {
@@ -45,14 +63,15 @@ router.post('/', (req, res) => {
                 console.log(err)
                 throw err
             } else {
-                console.log(result.rows);
+                // console.log(result.rows);
                 res.render('novul', {
                     auth: auth,
                     users: result.rows,
                     attrs: attrs,
                     user: user,
                     pass: pass,
-                    prijava: true
+                    prijava: true,
+                    timeout: false
                 })
             }
         })
@@ -68,5 +87,13 @@ function vulCheck(user, pass) {
         return true
     return false
 }
+
+function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+      currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+  }
 
 module.exports = router
