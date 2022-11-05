@@ -13,10 +13,10 @@ router.get('/', (req, res) => {
     pool.query(dbSetup, (err, resu, f) => {
     })
 
-    res.render('vul', {
+    res.render('novul', {
         auth: false,
-        text : 'joj',
-        users: ''
+        users: '',
+        prijava: false
     })
 })
 // ' or 1=1--
@@ -25,23 +25,47 @@ router.post('/', (req, res) => {
     var pass = req.body.pass
     var auth = false
     if (user && pass) auth = true
-    var sql = `select * from users where user_name like '${user}' and user_password like '${pass}'`
 
-    pool.query(sql, (err, result, f) => {
-        if (err) {
-            console.log(err)
-            throw err
-        } else {
-            console.log(result);
-            res.render('vul', {
-                auth: auth,
-                users: result.rows,
-                attrs: attrs,
-                user: user,
-                pass: pass
-            })
-        }
-    })
+    if (vulCheck(user, pass)) {
+        console.log('nismo ok');
+        res.render('novul', {
+            auth: false,
+            users: '',
+            attrs: attrs,
+            user: user,
+            pass: pass,
+            prijava: true
+        })
+    } else {
+        console.log('ok smo');
+        var sql = format(`select * from users where user_name like '%s' and user_password like '%s'`, user, pass)
+    
+        pool.query(sql, (err, result, f) => {
+            if (err) {
+                console.log(err)
+                throw err
+            } else {
+                console.log(result.rows);
+                res.render('novul', {
+                    auth: auth,
+                    users: result.rows,
+                    attrs: attrs,
+                    user: user,
+                    pass: pass,
+                    prijava: true
+                })
+            }
+        })
+    } 
 })
+
+function vulCheck(user, pass) {
+    if (user == '' || pass == '' ||
+        user.includes(' ') || pass.includes(' ') ||
+        user.includes('"') || pass.includes('"') ||
+        user.includes("'") || pass.includes("'"))
+        return true
+    return false
+}
 
 module.exports = router

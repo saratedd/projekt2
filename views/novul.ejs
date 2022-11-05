@@ -7,6 +7,24 @@
     <title>Not vulnerable</title>
 </head>
 <body>
-    ja sam novul
+    <form action="./novul" method="post">
+        login
+        <input type="text" name="user">
+        <br>
+        password
+        <input type="password" name="pass">
+        <button type="submit">submit</button>
+    </form>
+    <% if (!prijava) { %>
+    <% } else if (prijava && auth && users.length > 0) { %>
+        <% for (user of users) {%>
+            <% for (attr of attrs) {%> 
+                <p><%= attr %>: <%= user[attr] %></p>
+            <% } %> 
+            <br>
+        <% } %>
+    <% } else { %>
+        <p>Korisnik nije pronađen. Korisničko ime ili lozinka nisu ispravni.</p>
+    <% } %>
 </body>
 </html>
