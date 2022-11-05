@@ -61,6 +61,7 @@ router.post('/', (req, res) => {
 
 function vulCheck(user, pass) {
     if (user == '' || pass == '' ||
+        typeof user != 'string' || typeof pass != 'string' ||
         user.includes(' ') || pass.includes(' ') ||
         user.includes('"') || pass.includes('"') ||
         user.includes("'") || pass.includes("'"))
