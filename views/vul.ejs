@@ -7,14 +7,21 @@
     <title>Vulnerable</title>
 </head>
 <body>
-    ja sam <%= text  %>
     <form action="./vul" method="post">
         login
         <input type="text" name="user">
         <br>
         password
-        <input type="text" name="pass">
+        <input type="password" name="pass">
         <button type="submit">submit</button>
     </form>
+    <% if (auth) { %>
+        <% for (user of users) {%>
+            <% for (attr of attrs) {%> 
+                <p><%= attr %>: <%= user[attr] %></p>
+            <% } %> 
+            <br>
+        <% } %>
+    <% } %> 
 </body>
 </html>
