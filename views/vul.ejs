@@ -7,6 +7,14 @@
     <title>Vulnerable</title>
 </head>
 <body>
-    ja sam vul
+    ja sam <%= text  %>
+    <form action="./vul" method="post">
+        login
+        <input type="text" name="user">
+        <br>
+        password
+        <input type="text" name="pass">
+        <button type="submit">submit</button>
+    </form>
 </body>
 </html>

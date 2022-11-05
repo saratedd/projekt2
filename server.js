@@ -1,6 +1,19 @@
 const express = require('express')
 const app = express()
 
+//const pool = require('./public/js/db');
+var format = require('pg-format');
+const {Pool} = require('pg');
+
+const pool = new Pool({
+    user: 'projekt2_user',
+    host: 'dpg-cdj2n8ien0honmd0l0gg-a',
+    database: 'projekt2',
+    password: '5MU4CEBaSLdXE6PmlxuxvF2BKooRQ9fN',
+    port: 5432
+});
+
+
 app.set('view engine', 'ejs')
 
 app.use(express.static('public'))
