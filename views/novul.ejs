@@ -4,30 +4,33 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
     <title>Not vulnerable</title>
 </head>
 <body>
     <form action="./novul" method="post">
-        login
+        <h3>login:</h3>
         <input type="text" name="user">
         <br>
-        password
+        <h3>password:</h3>
         <input type="password" name="pass">
         <button type="submit">submit</button>
     </form>
     <% if (!prijava) { %>
-    <% } else if (prijava && auth && users.length > 0) { %>
-        <% for (user of users) {%>
-            <% for (attr of attrs) {%> 
-                <p><%= attr %>: <%= user[attr] %></p>
-            <% } %> 
-            <br>
+        <% } else if (prijava && auth && users.length > 0) { %>
+            <div class="data">
+                <% for (user of users) {%>
+                    <% for (attr of attrs) {%> 
+                        <p><%= attr %>: <%= user[attr] %></p>
+                    <% } %> 
+                    <br>
+                <% } %>
+            <% } else { %>
+                <p>Korisnik nije pronađen. Korisničko ime ili lozinka nisu ispravni.</p>
+                <% if (timeout) {%>
+                    <p>Pokušajte ponovno za 5 sekundi.</p>
+                <% } %> 
+            </div>
         <% } %>
-    <% } else { %>
-        <p>Korisnik nije pronađen. Korisničko ime ili lozinka nisu ispravni.</p>
-        <% if (timeout) {%>
-            <p>Pokušajte ponovno za 5 sekundi.</p>
-        <% } %> 
-    <% } %>
 </body>
 </html>

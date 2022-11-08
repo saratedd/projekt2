@@ -28,7 +28,7 @@ router.post('/', (req, res) => {
     if (user && pass) auth = true
 
     if (vulCheck(user, pass)) {
-        console.log('nismo ok');
+        // console.log('nismo ok');
         timeout++
         if (timeout == 3) {
             res.render('novul', {
